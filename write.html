@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Title</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=0">
+      <style media="screen">
+        #canvas{width: 360px;height: 360px;}
+      </style>
+    </head>
+    <body>
+      <div class="canvas" id="canvas" >
+        <canvas id="myCanvas" width="360" height="360"></canvas>
+        <input type="submit" name="" id="submit1" value="擦除">
+      </div>
+    </body>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script >
+    var c=document.getElementById("myCanvas");
+    var ctx=c.getContext("2d");
+
+    function ctxFun (){
+      ctx.fillStyle="#ccc";
+      ctx.fillRect(0,0,360,360);
+      ctx.fillStyle="#F6F4F0";
+      ctx.fillRect(10,10,340,340);
+
+      // 绘制虚线
+      ctx.setLineDash([15,5]);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#ccc';
+      ctx.beginPath();
+      ctx.moveTo(10, 10);
+      ctx.lineTo(340, 340);
+      ctx.stroke();
+
+      ctx.setLineDash([15,5]);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#ccc';
+      ctx.beginPath();
+      ctx.moveTo(10, 180);
+      ctx.lineTo(340, 180);
+      ctx.stroke();
+
+      ctx.setLineDash([15,5]);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#ccc';
+      ctx.beginPath();
+      ctx.moveTo(180, 10);
+      ctx.lineTo(180, 340);
+      ctx.stroke();
+
+      ctx.setLineDash([15,5]);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = '#ccc';
+      ctx.beginPath();
+      ctx.moveTo(345, 15);
+      ctx.lineTo(15, 345);
+      ctx.closePath();
+      ctx.stroke();
+
+      //  绘制直线
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(10,10);
+      ctx.strokeStyle = '#000';
+      ctx.lineTo(10,350);
+      ctx.lineTo(350,350);
+      ctx.lineTo(350,10);
+      ctx.lineTo(10,10);
+      ctx.stroke();
+    }
+    ctxFun()
+    var canvas = document.getElementById('canvas')
+    canvas.addEventListener("touchstart",dotouchstart,false);
+    canvas.addEventListener("touchend",dotouchend,false);
+
+    function dotouchstart (){
+      canvas.addEventListener("touchmove",dotouchmove,false);
+    }
+    function dotouchmove (ev){
+      console.log('move');
+      ev = ev || window.event;
+      x = ev.touches[0].pageX;
+      y = ev.touches[0].pageY;
+      circle (x, y)
+    }
+    function dotouchend (){
+      canvas.removeEventListener("touchmove",dotouchmove,false);
+    }
+
+    function circle (x, y) {
+      ctx.beginPath();
+      ctx.arc(x,y,10,0,2*Math.PI,true);
+      ctx.fillStyle="#333";
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    var submit1 = document.getElementById('submit1')
+    submit1.addEventListener('click', submit1Fun, false)
+    function submit1Fun () {
+      ctxFun()
+    }
+
+  </script>
