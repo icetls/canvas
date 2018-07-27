@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    .contain{
+      width: 80%;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+    #award{
+        width: 100%;
+        height: 300px;
+        font-size: 150px;
+        color: #f60;
+        line-height: 300px;
+        text-align: center;
+      }
+    #myCanvas{
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    </style>
+  </head>
+  <body >
+    <div class="contain">
+      <div id="award">nihao</div>
+      <canvas id="myCanvas" height="300">nihao</canvas>
+    </div>
+  </body>
+  <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript">
+  var canvas = document.getElementById("myCanvas");
+  var context = canvas.getContext("2d");
+  //设置自适应
+  $(window).resize(resizeCanvas);
+  function resizeCanvas() {
+  $("#myCanvas").attr("width", $(window).get(0).innerWidth*0.8);
+  // $("#myCanvas").attr("height", $(window).get(0).innerHeight);
+  context.fillStyle="#D1D1D1";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillRect(0, 0, 200, 100); //填充该颜色，以覆盖下方的背景图片
+  context.globalCompositeOperation = 'destination-out';//设置或返回新图像如何绘制到已有的图像上
+
+  };
+  //绘制canvas画布
+  resizeCanvas();
+
+  canvas.addEventListener('touchmove', function(event) {
+  event.preventDefault(); //先去除默认的响应行为
+  var touch = event.touches[0]; //获取触摸的第一个点
+  context.beginPath(); //开始路径的绘制
+  context.arc(touch.pageX - canvas.offsetLeft, touch.pageY - canvas.offsetTop, 50, 0, Math.PI * 2); //在所触摸处绘制圆形，半径为20像素
+  context.closePath(); //结束路径绘制
+  context.fillStyle="#BDC3C7"; //随意设置一种绘制颜色
+  context.fill(); //填充该颜色
+  var imgData = context.getImageData(0, 0, 200, 100); //获取画布中的所有像素
+  var data = imgData.data; //得到像素的字节数据
+  var length = data.length; //获取该数据的长度
+  var transparent = 0; //设置一个变量来记录已经变为透明的像素点的数量
+  for (var i = 0; i < length; i += 4) { //循环遍历每一个像素
+    var alpha = data[i + 3]; //获取每个像素的透明度数值
+    if (alpha < 10) //当透明度小于10时，认为它已经被擦除，transparent数值加1
+      transparent++;
+  }
+  var percentage = transparent / (length / 4); //计算透明像素在所有像素点中所占比例
+  if (percentage > 0.9) //当比例大于90%时，显示刮奖结束字样
+    alert("刮奖结束！");
+  }
+);
+
+  </script>
+</html>
