@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+  <script language="javascript">
+  var flag;
+  function IsPC() {
+     var userAgentInfo = navigator.userAgent;
+     var Agents = ['Android', 'iPhone',
+         'SymbianOS', 'Windows Phone',
+         'iPad', 'iPod'
+     ];
+     flag = true;
+     for (var i = 0; i < Agents.length; i++) {
+         if (userAgentInfo.indexOf(Agents[i]) != -1) {
+             flag = false;
+             break;
+         }
+     }
+     return flag;
+ }
+IsPC()
+//flag=true是pc
+ console.log(flag);
+</script>
+
+</html>
